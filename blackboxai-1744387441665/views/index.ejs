@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Information Display System</title>
+    <link href="/styles.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a1a1a;
+        }
+        .flight-row:nth-child(even) {
+            background-color: rgba(38, 38, 38, 0.5);
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+    <img src="/logo.png" alt="Logo" class="mb-8" />
+    <h1 class="text-4xl font-bold text-blue-400 text-center">Flight Information Display System</h1>
+        <div class="bg-gray-900 rounded-lg shadow-xl overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="min-w-full">
+                    <thead>
+                        <tr class="bg-blue-600">
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-white">Flight</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-white">A/D</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-white">Type</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-white">Airport</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-white">Schedule</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-white">Status</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-white">Bay</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-white">Gate</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-white">Est Time</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-white">Remarks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% flights.forEach(flight => { %>
+                            <tr class="flight-row border-b border-gray-800">
+                                <td class="px-6 py-4 text-sm font-medium text-blue-400"><%= flight.flight_number %></td>
+                                <td class="px-6 py-4 text-sm text-gray-300"><%= flight.airline %></td>
+                                <td class="px-6 py-4 text-sm text-gray-300"><%= flight.direction === 'D' ? 'DOM' : 'INT' %></td>
+                                <td class="px-6 py-4 text-sm text-gray-300"><%= flight.airport %></td>
+                                <td class="px-6 py-4 text-sm text-gray-300"><%= flight.scheduled_time %></td>
+                                <td class="px-6 py-4 text-sm">
+                                    <span class="<%= 
+                                        flight.status === 'Landed' ? 'bg-green-900 text-green-300' : 
+                                        flight.status.includes('DELAY') ? 'bg-red-900 text-red-300' : 
+                                        'bg-blue-900 text-blue-300' 
+                                    %> px-3 py-1 rounded-full text-xs font-semibold">
+                                        <%= flight.status %>
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 text-sm text-gray-300"><%= flight.bay || '-' %></td>
+                                <td class="px-6 py-4 text-sm text-gray-300"><%= flight.direction === 'D' ? flight.gate || '-' : '-' %></td>
+                                <td class="px-6 py-4 text-sm text-gray-300"><%= flight.estimated_time || '-' %></td>
+                                <td class="px-6 py-4 text-sm text-gray-300"><%= flight.remarks %></td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="mt-4 text-center text-gray-400 text-sm">
+            Last updated: <%= new Date().toLocaleString() %>
+        </div>
+    </div>
+    <script>
+        // Auto-refresh the page every 30 seconds
+        setTimeout(() => {
+            window.location.reload();
+        }, 30000);
+    </script>
+</body>
+</html>
